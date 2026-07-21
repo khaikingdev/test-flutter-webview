@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace "com.example.webview_webrtc_app"
-    compileSdk 34
+    compileSdk 36 // <-- Đã đổi từ 34 lên 36
 
     defaultConfig {
         applicationId "com.example.webview_webrtc_app"
         minSdk 21
-        targetSdk 34
+        targetSdk 36 // <-- Đã đổi lên 36
         versionCode 1
         versionName "1.0"
     }

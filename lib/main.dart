@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'WebRTC WebView',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterialScheme: true,
+        useMaterial3: true, // <-- Đã sửa lỗi useMaterialScheme
       ),
       home: const HomeScreen(),
     );
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   void _openWebView() async {
-    // Xin quyền Micro va Camera trước khi mở Webview cho WebRTC
+    // Xin quyền Micro và Camera trước khi mở Webview cho WebRTC
     await [Permission.camera, Permission.microphone].request();
 
     String urlText = _urlController.text.trim();
@@ -150,15 +150,16 @@ class _WebViewScreenState extends State<WebViewScreen> {
         ),
       );
 
-    // Cấp quyền Media (Camera/Microphone) tự động cho WebRTC trên Android Native Webview
+    // Cấp quyền Media (Camera/Microphone) cho WebRTC trên Android Native Webview
     if (controller.platform is AndroidWebViewController) {
       AndroidWebViewController.enableDebugging(true);
-      (controller.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
+      final androidController = controller.platform as AndroidWebViewController;
+      
+      androidController.setMediaPlaybackRequiresUserGesture(false);
           
-      // Callback tự động chấp nhận quyền cấp từ trang web (getUserMedia)
-      (controller.platform as AndroidWebViewController).setOnPlatformPermissionRequest(
-        (AndroidWebViewPermissionRequest request) {
+      // Callback tự động chấp nhận quyền từ trang web (getUserMedia) - Đã cập nhật Type chuẩn
+      androidController.setOnPlatformPermissionRequest(
+        (request) {
           request.grant();
         },
       );
